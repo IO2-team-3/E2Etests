@@ -23,3 +23,32 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', (username, password) => {
+    cy.session(
+        username,
+        () => {
+            cy.visit('/log_in')
+            cy.get('input[id=email]').type(username)
+            cy.get('input[id=password]').type(`${password}{enter}`, { log: false })
+            cy.url().should('include', '/organizer')
+            cy.contains('Profile')
+        },
+        {
+            validate: () => {
+                let token = window.localStorage.getItem('user')
+                expect(token).to.exist
+            },
+        }
+    )
+    cy.visit('/organizer/my_events')
+})
+
+Cypress.Commands.add('logout', () => {
+    //cy.get('a:contains(Log out)').click()
+    cy.contains('a','Log out').click()
+    cy.contains('a','Log out').should('not.exist')
+    cy.url().should('eq', Cypress.config('baseUrl'))
+    cy.contains('a','Log in')
+    cy.visit('/')
+})
