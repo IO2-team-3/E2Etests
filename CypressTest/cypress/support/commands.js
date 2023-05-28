@@ -52,3 +52,7 @@ Cypress.Commands.add('logout', () => {
     cy.contains('a','Log in')
     cy.visit('/')
 })
+
+Cypress.Commands.add('saveValue', { prevSubject: true }, (subject, alias) => {
+    cy.wrap(subject).as(alias);
+});
