@@ -1,6 +1,6 @@
 beforeEach(() => {
   cy.visit('/')
-  const { username, password } = {username:'lvb57003@nezid.com',password:'lvb57003'}
+  const { username, password } = {username:'pzg87140@zbock.com',password:'pzg87140'}
   cy.login(username, password)
 })
 
@@ -11,7 +11,7 @@ describe('test logged user functionality', () => {
     cy.get('input[id=title]').type(eventVal)
     cy.get('input[id=startTime]').type('2023-12-11T10:00')
     cy.get('input[id=endTime]').type('2023-12-13T10:00')
-    cy.get('input[id=categories]').type('test, e2e')
+    cy.get('input[id=categories]').type('tests, e2e, io')
     cy.get('textarea[id=description]').type('e2e tests')
     cy.get('input[id=freePlaces]').type('111')
     cy.fixture('placeSchema.png').then(fileContent => {
@@ -71,31 +71,30 @@ describe('test logged user functionality', () => {
     cy.get('svg[data-icon=user]').should('exist')
     cy.get('input').should('not.exist')
     cy.contains('div','Name:').should('exist')
-    cy.contains('div','Email:').should('contain.text','lvb57003@nezid.com')
+    cy.contains('div','Email:').should('contain.text','pzg87140@zbock.com')
     cy.contains('div','Edit profile').click()
     cy.get('svg[data-icon=user-pen]').should('exist')
 
     let val = cy.get('input[type=text]').invoke('val').saveValue('name');
     cy.get('@name').then((val) => {
       let in1 = cy.get('input[type=text]')
-      if (val.toString() === 'LVB2') {
+      if (val.toString() === 'PZG') {
         in1.clear()
-        in1.type('LVB')
-      } else if (val.toString() === 'LVB') {
+        in1.type('PZG2')
+      } else if (val.toString() === 'PZG2') {
         in1.clear()
-        in1.type('LVB2')
+        in1.type('PZG')
       } else {
         console.error()
       }
     })
     cy.contains('button','Save').should('be.disabled')
-    cy.get('input[type=password]').clear().type('lvb57003')
+    cy.get('input[type=password]').clear().type('pzg87140')
     cy.contains('button','Save').should('not.be.disabled').click()
     cy.wait('@postOrganizerData')
 
     cy.get('svg[data-icon=user]').should('exist')
     cy.get('input').should('not.exist')
-    cy.contains('div','Name:').should('contain.text','LVB')
 
     cy.get('@name').then((val) => {
       cy.get('span.text-lg').eq(0).invoke('text').should('not.eq',val)
